@@ -67,27 +67,12 @@ const AddEmployee = () => {
   const handleClickBackBtn = () => {
     redirect("/employees");
   };
-  const jobs: IJob[] = []; // Add your job data here
+  //const jobs: IJob[] = []; // Add your job data here
   return (
     <div className="content">
       <div className="add-employee">
         <h2>Add New Employee</h2>
-        <FormControl fullWidth>
-          <InputLabel>Job</InputLabel>
-          <Select
-            value={employee.jobId}
-            label="Job"
-            onChange={(e) =>
-              setEmployee({ ...employee, jobId: e.target.value })
-            }
-          >
-            {jobs.map((item: IJob) => (
-              <MenuItem key={item.id} value={item.id}>
-                {item.title}
-              </MenuItem>
-            ))}
-          </Select>
-        </FormControl>
+
         <TextField
           autoComplete="off"
           label="First Name"
@@ -144,7 +129,7 @@ const AddEmployee = () => {
 
         <TextField
           autoComplete="off"
-          label="Phone"
+          label="Deprtment"
           variant="outlined"
           value={employee.department}
           onChange={(e) =>
