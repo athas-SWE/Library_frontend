@@ -107,7 +107,8 @@ const AddEmployee = () => {
         />
         <TextField
           autoComplete="off"
-          label="DateOfBirth"
+          label="Date of Birth"
+          type="date"
           variant="outlined"
           value={employee.dateOfBirth}
           onChange={(e) =>
