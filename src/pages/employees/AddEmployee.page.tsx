@@ -67,12 +67,11 @@ const AddEmployee = () => {
   const handleClickBackBtn = () => {
     redirect("/employees");
   };
-  //const jobs: IJob[] = []; // Add your job data here
+  //  const jobs: IJob[] = []; // Add your job data here
   return (
     <div className="content">
       <div className="add-employee">
         <h2>Add New Employee</h2>
-
         <TextField
           autoComplete="off"
           label="First Name"
@@ -136,6 +135,13 @@ const AddEmployee = () => {
           onChange={(e) =>
             setEmployee({ ...employee, department: e.target.value })
           }
+        />
+        <TextField
+          autoComplete="off"
+          label="Job ID"
+          variant="outlined"
+          value={employee.jobId}
+          onChange={(e) => setEmployee({ ...employee, jobId: e.target.value })}
         />
 
         <div className="btns">
