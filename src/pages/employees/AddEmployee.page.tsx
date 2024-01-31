@@ -16,8 +16,7 @@ import MenuItem from "@mui/material/MenuItem/MenuItem";
 import Button from "@mui/material/Button/Button";
 import { useNavigate } from "react-router-dom";
 import httpModule from "../../helpers/http.module";
-
-// ... (existing imports)
+import Employees from "./Employees.page";
 
 const AddEmployee = () => {
   const [employee, setEmployee] = useState<ICreateEmployeeDto>({
@@ -25,27 +24,13 @@ const AddEmployee = () => {
     lastName: "",
     email: "",
     phone: "",
-    dob: "", // New field for Date of Birth
-    age: 0, // New field for Age
-    salary: 0, // New field for Salary
-    departmentId: "", // New field for Department
+    dateofBirth: "",
+    salary: "", // Fix: Use "salary" instead of "phone" here
+    department: "", // Fix: Use "department" instead of "phone" here
+    jobId: "",
   });
-  const [departments, setDepartments] = useState<IDepartment[]>([]);
 
-  const redirect = useNavigate();
-
-  useEffect(() => {
-    // Fetch departments data
-    httpModule
-      .get<IDepartment[]>("/Department/Get")
-      .then((response) => {
-        setDepartments(response.data);
-      })
-      .catch((error) => {
-        alert("Error");
-        console.log(error);
-      });
-  }, []);
+  // ...
 
   const handleClickSaveBtn = () => {
     if (
@@ -53,31 +38,28 @@ const AddEmployee = () => {
       employee.lastName === "" ||
       employee.email === "" ||
       employee.phone === "" ||
-      employee.dob === "" ||
-      employee.age <= 0 ||
-      employee.salary <= 0 ||
-      employee.departmentId === ""
+      employee.dateOfBirth === "" ||
+      employee.salary === "" ||
+      employee.department === "" ||
+      employee.jobId === ""
     ) {
       alert("Fill all fields");
       return;
     }
 
-    // Create a new employee object with the updated fields
-    const newEmployee = {
-      firstName: employee.firstName,
-      lastName: employee.lastName,
-      email: employee.email,
-      phone: employee.phone,
-      dob: employee.dob,
-      age: employee.age,
-      salary: employee.salary,
-      departmentId: employee.departmentId,
-    };
+    const newEmployeeFormData = new FormData();
+    newEmployeeFormData.append("firstName", employee.firstName);
+    newEmployeeFormData.append("lastName", employee.lastName);
+    newEmployeeFormData.append("email", employee.email);
+    newEmployeeFormData.append("phone", employee.phone);
+    newEmployeeFormData.append("dateOfBirth", employee.dateOfBirth);
+    newEmployeeFormData.append("salary", String(employee.salary));
+    newEmployeeFormData.append("department", employee.department);
+    newEmployeeFormData.append("jobId", employee.jobId);
 
-    // Perform the API call with the new employee data
     httpModule
-      .post("/Employee/Create", newEmployee)
-      .then((response) => redirect("/employees"))
+      .post("/Employee/Create", newEmployeeFormData)
+      .then((response) => navigate("/employees"))
       .catch((error) => console.log(error));
   };
 
@@ -90,40 +72,77 @@ const AddEmployee = () => {
       <div className="add-employee">
         <h2>Add New Employee</h2>
         <FormControl fullWidth>
-          <InputLabel>Department</InputLabel>
+          <InputLabel>Job</InputLabel>
           <Select
-            value={employee.departmentId}
-            label="Department"
+            value={employee.jobId}
+            label="Job"
             onChange={(e) =>
-              setEmployee({ ...employee, departmentId: e.target.value })
+              setEmployee({ ...employee, jobId: e.target.value })
             }
           >
-            {departments.map((item) => (
+            {jobs.map((item) => (
               <MenuItem key={item.id} value={item.id}>
-                {item.name}
+                {item.title}
               </MenuItem>
             ))}
           </Select>
         </FormControl>
-        {/* ... (existing form fields) */}
         <TextField
           autoComplete="off"
-          label="Date of Birth"
-          type="date"
+          label="First Name"
           variant="outlined"
-          value={employee.dob}
-          onChange={(e) => setEmployee({ ...employee, dob: e.target.value })}
+          value={employee.firstName}
+          onChange={(e) =>
+            setEmployee({ ...employee, firstName: e.target.value })
+          }
+        />
+        <TextField
+          autoComplete="off"
+          label="Last Name"
+          variant="outlined"
+          value={employee.lastName}
+          onChange={(e) =>
+            setEmployee({ ...employee, lastName: e.target.value })
+          }
+        />
+        <TextField
+          autoComplete="off"
+          label="Email"
+          variant="outlined"
+          value={employee.email}
+          onChange={(e) => setEmployee({ ...employee, email: e.target.value })}
+        />
+        <TextField
+          autoComplete="off"
+          label="Phone"
+          variant="outlined"
+          value={employee.phone}
+          onChange={(e) => setEmployee({ ...employee, phone: e.target.value })}
+        />
+        <TextField
+          autoComplete="off"
+          label="DateOfBirth"
+          variant="outlined"
+          value={employee.dateofBirth}
+          onChange={(e) =>
+            setEmployee({ ...employee, dateofBirth: e.target.value })
+          }
         />
         <TextField
           autoComplete="off"
           label="Salary"
-          type="number"
           variant="outlined"
           value={employee.salary}
-          onChange={(e) =>
-            setEmployee({ ...employee, salary: +e.target.value })
-          }
+          onChange={(e) => setEmployee({ ...employee, phone: e.target.value })}
         />
+        <TextField
+          autoComplete="off"
+          label="Phone"
+          variant="outlined"
+          value={employee.department}
+          onChange={(e) => setEmployee({ ...employee, phone: e.target.value })}
+        />
+
         <div className="btns">
           <Button
             variant="outlined"
