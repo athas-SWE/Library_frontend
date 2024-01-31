@@ -24,13 +24,14 @@ const AddEmployee = () => {
     lastName: "",
     email: "",
     phone: "",
-    dateofBirth: "",
-    salary: "", // Fix: Use "salary" instead of "phone" here
+    dateOfBirth: "",
+    salary: 0, // Fix: Use "salary" instead of "phone" here
     department: "", // Fix: Use "department" instead of "phone" here
     jobId: "",
   });
 
   // ...
+  const redirect = useNavigate();
 
   const handleClickSaveBtn = () => {
     if (
@@ -39,7 +40,7 @@ const AddEmployee = () => {
       employee.email === "" ||
       employee.phone === "" ||
       employee.dateOfBirth === "" ||
-      employee.salary === "" ||
+      employee.salary === 0 ||
       employee.department === "" ||
       employee.jobId === ""
     ) {
@@ -59,14 +60,14 @@ const AddEmployee = () => {
 
     httpModule
       .post("/Employee/Create", newEmployeeFormData)
-      .then((response) => navigate("/employees"))
+      .then((response) => redirect("/employees"))
       .catch((error) => console.log(error));
   };
 
   const handleClickBackBtn = () => {
     redirect("/employees");
   };
-
+  const jobs: IJob[] = []; // Add your job data here
   return (
     <div className="content">
       <div className="add-employee">
@@ -80,7 +81,7 @@ const AddEmployee = () => {
               setEmployee({ ...employee, jobId: e.target.value })
             }
           >
-            {jobs.map((item) => (
+            {jobs.map((item: IJob) => (
               <MenuItem key={item.id} value={item.id}>
                 {item.title}
               </MenuItem>
@@ -123,9 +124,9 @@ const AddEmployee = () => {
           autoComplete="off"
           label="DateOfBirth"
           variant="outlined"
-          value={employee.dateofBirth}
+          value={employee.dateOfBirth}
           onChange={(e) =>
-            setEmployee({ ...employee, dateofBirth: e.target.value })
+            setEmployee({ ...employee, dateOfBirth: e.target.value })
           }
         />
         <TextField
@@ -133,14 +134,22 @@ const AddEmployee = () => {
           label="Salary"
           variant="outlined"
           value={employee.salary}
-          onChange={(e) => setEmployee({ ...employee, phone: e.target.value })}
+          onChange={(e) =>
+            setEmployee({
+              ...employee,
+              salary: parseInt(e.target.value, 10) || 0,
+            })
+          }
         />
+
         <TextField
           autoComplete="off"
           label="Phone"
           variant="outlined"
           value={employee.department}
-          onChange={(e) => setEmployee({ ...employee, phone: e.target.value })}
+          onChange={(e) =>
+            setEmployee({ ...employee, department: e.target.value })
+          }
         />
 
         <div className="btns">
