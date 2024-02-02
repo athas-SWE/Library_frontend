@@ -11,6 +11,9 @@ const Departments = lazy(() => import("./pages/departments/Departments.page"));
 const AddDepartment = lazy(
   () => import("./pages/departments/AddDepartment.page")
 );
+const UpdateDepartment = lazy(
+  () => import("./pages/departments/UpdateDepartment.page")
+);
 const Jobs = lazy(() => import("./pages/jobs/Jobs.page"));
 const AddJob = lazy(() => import("./pages/jobs/AddJob.page"));
 const Employees = lazy(() => import("./pages/employees/Employees.page"));
@@ -31,6 +34,7 @@ const App = () => {
             <Route path="/departments">
               <Route index element={<Departments />} />
               <Route path="add" element={<AddDepartment />} />
+              <Route path="add" element={<UpdateDepartment />} />
             </Route>
             <Route path="/jobs">
               <Route index element={<Jobs />} />

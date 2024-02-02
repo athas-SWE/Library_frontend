@@ -8,6 +8,11 @@ export interface ICreateDepartmentDto {
   name: string;
   code: string;
 }
+
+export interface IUpdateDepartmentDto {
+  name: string;
+  code: string;
+}
 export interface IJob {
   id: string;
   title: string;

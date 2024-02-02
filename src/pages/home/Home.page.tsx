@@ -1,11 +1,17 @@
 import "./home.scss";
-
+import img2 from "./img.jpg";
 const Home = () => {
   return (
     <div className="content home">
       <h3>Welcome To Website</h3>
       <br />
       <br />
+      <img
+        className="logo img mt-4"
+        src={img2}
+        style={{ width: 1000 }}
+        alt="profile"
+      />
       <span>
         Lorem ipsum dolor sit amet consectetur adipisicing elit. Impedit fugiat
         iusto explicabo voluptatum, blanditiis libero eum tempora excepturi
